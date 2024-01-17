@@ -6,7 +6,7 @@
           <form action="/articles/add" method="POST">
             <div class="">
             <input type="text" class="form-control mb-3" placeholder="Title" name="title" />
-            <textarea placeholder="Content" class="form-control mb-3" name="content"></textarea>
+            <textarea id="content" placeholder="Content" class="form-control mb-3" name="content"></textarea>
             <button type="submit" class="btn btn-primary">Add Article</button>
             </div>
           </form>
@@ -21,8 +21,14 @@
       @for post in ctx.articles
           <div class="row align-items-center">
             <div class="col-10">
-              <h5 class="fs-3 text-secondary"><a class="link-dark fw-bold link-underline-opacity-0 text-capitalize" href="/articles/@{post.id.str()}" >@{post.id} - @{post.title}</a></h5>
-              <p class="post_content">@{post.content}</p>
+              <h5 class="fs-3 text-secondary"><a class="link-dark fw-bold link-underline-opacity-0 text-capitalize" href="/articles/@{post.id.str()}" >@{post.title}</a></h5>
+              <p class="text-secondary">
+                @if post.content.len > 200
+                  @{post.content[..200]}...
+                @else
+                  @post.content
+                @endif
+              </p>
             </div>
             <div class="col-2 text-right align-middle">
               <form action="/articles/@{post.id}/delete" method="POST">
@@ -38,3 +44,14 @@
       </div>
  
     </main>
+
+    <script>
+      const content = document.getElementById('content');
+      
+      content.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          content.value += '\n';
+        }
+      });
+      </script>

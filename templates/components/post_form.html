@@ -3,7 +3,7 @@
         <label for="title" name="Title" class="form-label">Title</label>
             <input id="title" type="text" class="form-control mb-3" placeholder="Title" name="title" value="@post.title" />
         <label for="content" name="Content" class="form-label">Content</label>
-            <textarea id="content" placeholder="Content" class="form-control mb-3" name="content" value="@post.content">@post.content</textarea>
+            <textarea id="content" rows="18" placeholder="Content" class="form-control mb-3" name="content" value="@post.content">@post.content</textarea>
     <button hx-put="/post-edit/@post.id" class="btn btn-primary">Save Changes</button>
     <button hx-get="/post-edit/@post.id" hx-swap="outerHTML" class="btn btn-primary">Cancel</button>
     </div>
@@ -20,3 +20,15 @@
         display:inline;
     }
     </style>
+
+
+<script>
+    const content = document.getElementById('content');
+    
+    content.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        content.value += '\n';
+      }
+    });
+    </script>

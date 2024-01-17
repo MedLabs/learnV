@@ -48,3 +48,16 @@ pub fn update_article(post models.Article) {
 		update models.Article set title = post.title, content = post.content where id == post.id
 	} or {}
 }
+
+// words count
+pub fn post_wc(post string) int {
+	mut splits := []string{}
+	for space_split in post.to_lower().split(' ') {
+		if space_split.contains('\n') {
+			splits << space_split.split('\n')
+		} else {
+			splits << space_split
+		}
+	}
+	return splits.len
+}

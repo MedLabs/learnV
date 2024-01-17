@@ -1,13 +1,13 @@
 <div hx-target="this" hx-swap="outerHTML" hx-indicator="htmx-indicator">
         <div class="row justify-content-between align-items-center">
             <div class="col-10">
-                <span class="display-5">@post.title</span>
+                <p class="display-5">@post.title</p>
             </div>
             <div class="col-2 text-center">
                 <button class="btn btn-outline-secondary btn-sm" hx-post="/post-edit/@{post.id}" hx-trigger="click">edit</button>
             </div>
         </div>
-    <p>@{post.content}</p>
+    <p>@post.content</p>
 </div>
 
 
@@ -21,4 +21,4 @@
     .htmx-request.htmx-indicator{
         display:inline;
     }
-    </style>
+</style>

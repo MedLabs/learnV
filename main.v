@@ -96,13 +96,24 @@ pub fn (mut app App) articles(mut ctx Context) vweb.Result {
 @['/articles/:id']
 pub fn (mut app App) post(mut ctx Context, id int) vweb.Result {
   post := handlers.get_article(id) or {models.Article{}}
-  
+/*   mut wc := 0
+  if post.id == 0 {
+    wc = 0
+  } else {
+    wc = handlers.post_wc(post.content)
+  } */
   app.title = "VWebApp - ${post.title}"
   return $vweb.html()
 }
 @['/post-edit/:id'; get; post]
 pub fn (mut app App) post_form(mut ctx Context, id int) vweb.Result {
   mut post := handlers.get_article(id) or {models.Article{}}
+/*   mut wc := 0
+  if post.id == 0 {
+    wc = 0
+  } else {
+    wc = handlers.post_wc(post.content)
+  } */
   if ctx.req.method == .post {
   return $vweb.html("templates/components/post_form.html")
   }
