@@ -1,0 +1,55 @@
+@include 'partials/header.html'
+
+<main class="container">
+    <div class="card">
+        <div class="card-body">
+            <form action="/users/add" method="POST">
+                <input type="hidden" name="id" />
+                <input class="form-control mb-3" type="text" name="name" placeholder="Name" />
+                <input class="form-control mb-3" type="text" name="username" placeholder="Username" />
+                <input class="form-control mb-3" type="text" name="password" placeholder="Password" />
+                <input class="form-control mb-3" type="text" name="role" placeholder="Role" />
+                <button class="btn btn-primary" type="submit">Create User</button>
+            </form>
+        </div>
+
+    </div>
+    
+    <div class=" card mt-4">
+        <div class="card-body">
+        <p class="display-6">Users List</p>
+
+            @if ctx.users.len > 0
+
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </th>
+                @for user in ctx.users
+                <tr>
+                    <td>@{user.id}</td>
+                    <td>@{user.name}</td>
+                    <td>@{user.username}</td>
+                    <td>@{user.role}</td>
+                    <td>@{user.created_at}</td>
+                    <td>
+                        <form action="/users/@{user.id}/delete" method="POST">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">X</button>
+                        </form>
+                    </td>
+                </tr>
+                @endfor
+            </table>
+            @else
+            <div class="alert alert-warning">
+                <p>No users found!</p>
+            </div>
+            @endif
+        </div>        
+    </div>
+</main>

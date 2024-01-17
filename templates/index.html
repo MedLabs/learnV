@@ -1,0 +1,23 @@
+    @include 'partials/header'
+    <main class="container">
+    <div class="text-center">
+      <img src="https://vlang.io/img/v-logo.png" width="200" />
+    </div>
+    <div class="text-center">
+      <h2>This app is backed by Vweb</h2>
+      <p>hello my name is @app.name, I'm @app.age y.o</p>
+      <p>Here is a counter using Vweb and HTMX:</p>
+    </div>
+    <div class="text-center">
+      <p class="display-5" id="count" hx-swap="innerHTML">@app.counter.count</p>
+      <button hx-put="/increment" hx-target="#count" hx-swap="innerHTML" class="btn btn-secondary">increment</button>
+      <button hx-put="/decrement" hx-target="#count" hx-swap="innerHTML" class="btn btn-secondary">decrement</button>
+    </div>
+    
+    <div class="card mt-5 text-left p-2">
+      <div class="card-content">
+        @md_to_html
+      </div>
+    </div>
+</main>
+<script src="/assets/js/htmx.min.js"></script>
