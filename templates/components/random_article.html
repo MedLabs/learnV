@@ -1,0 +1,8 @@
+<div id="random_article" hx-indicator="htmx-indicator" hx-swap="innerHTML" class="card-body">
+    @if random_post.id == 0
+    <div class="alert alert-warning">No articles found !</div>
+    @else
+    <h2 class="display-5">@random_post.title</h2>
+    <p>@random_post.content</p>
+    @endif
+</div>

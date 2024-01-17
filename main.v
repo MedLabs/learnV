@@ -180,23 +180,23 @@ pub fn (mut app App) htmx(mut ctx Context) vweb.Result {
 
 // random_article Route to get a random article
 @['/random_article'; get]
-pub fn (mut app App) random(mut ctx Context) vweb.Result {
+pub fn (mut app App) random_article(mut ctx Context) vweb.Result {
 	mut db := database.config_db() or {panic(err)}
 	result := sql db {
 		select from models.Article order by id desc
 	} or {[]models.Article{}}
   random_post := rand.element(result) or {models.Article{}}
-	return ctx.ok(random_post.str())
+	return $vweb.html("templates/components/random_article.html")
 }
 
-
+// no need to specify route if the function name matched the called endpoint
 pub fn (mut app App) random_user(mut ctx Context) vweb.Result {
   mut db := database.config_db() or {panic(err)}
   result := sql db {
     select from models.User order by id
   } or {[]models.User{}}
   random_user := rand.element(result) or {models.User{}}
-  return ctx.ok(random_user.str())
+  return $vweb.html("templates/components/random_user.html")
 }
 
 @['/increment'; put]
