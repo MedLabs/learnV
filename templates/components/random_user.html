@@ -1,10 +1,10 @@
 <div id="random_article" hx-indicator="htmx-indicator" hx-swap="innerHTML" class="card-body">
-    @if random_user.id == 0
+    @if last.id == 0
     <div class="alert alert-warning">No users found !</div>
     @else
-        <span class="col-2 fw-bold">Name: </span><span>@random_user.name</span><br>
-        <span class="col-2 fw-bold">Username: </span><span>@random_user.username</span><br>
-        <span class="col-2 fw-bold">Role: </span><span>@random_user.role</span><br>
-        <span class="col-2 fw-bold">Created At: </span><span>@random_user.created_at</span>
+        <span class="col-2 fw-bold">Name: </span><span>@last.name</span><br>
+        <span class="col-2 fw-bold">Username: </span><span>@last.username</span><br>
+        <span class="col-2 fw-bold">Role: </span><span>@last.role</span><br>
+        <span class="col-2 fw-bold">Created At: </span><span>@last.created_at</span>
     @endif
 </div>

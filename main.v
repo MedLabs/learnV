@@ -132,13 +132,18 @@ pub fn (mut app App) add_post(mut ctx Context, title string, content string) vwe
 	else {
     handlers.add_article(title, content) or { panic(err)}
   }
-  return ctx.redirect('/articles', .see_other)
+  return ctx.redirect('/articles')
 }
 
 @['/articles/:id/delete'; post]
 pub fn (mut app App) delete_post(mut ctx Context, id int) vweb.Result {
   handlers.delete_article(id)
-  return ctx.redirect('/articles', .see_other)
+  return ctx.redirect('/articles')
+}
+
+@['/toggle-confirm/:id'; post]
+pub fn (mut app App) toggle_confirm(mut ctx Context, id int) vweb.Result {
+  return $vweb.html("templates/components/confirm_delete_article.html")
 }
 
 @['/post-edit/:id...'; put]
@@ -173,13 +178,13 @@ pub fn (mut app App) create_user(mut ctx Context, name string, username string, 
   } else {
     handlers.create_user(user) or {panic(err)}
   }
-  return ctx.redirect('/users', .see_other)
+  return ctx.redirect('/users')
 }
 
 @['/users/:id/delete'; post]
 pub fn (mut app App) delete_user(mut ctx Context, id int) vweb.Result {
   handlers.delete_user(id)
-  return ctx.redirect('/users', .see_other)
+  return ctx.redirect('/users')
 }
 
 @['/htmx']
@@ -200,14 +205,15 @@ pub fn (mut app App) random_article(mut ctx Context) vweb.Result {
 	return $vweb.html("templates/components/random_article.html")
 }
 
-// no need to specify route if the function name matched the called endpoint
-pub fn (mut app App) random_user(mut ctx Context) vweb.Result {
-  mut db := database.config_db() or {panic(err)}
-  result := sql db {
-    select from models.User order by id
-  } or {[]models.User{}}
-  random_user := rand.element(result) or {models.User{}}
-  return $vweb.html("templates/components/random_user.html")
+// last_user Route to get the last added user
+@['/last_user'; get]
+pub fn (mut app App) last_user(mut ctx Context) vweb.Result {
+	mut db := database.config_db() or {panic(err)}
+	result := sql db {
+		select from models.User order by id desc
+	} or {[]models.User{}}
+    last := result.first()
+	return $vweb.html("templates/components/random_user.html")
 }
 
 @['/increment'; put]

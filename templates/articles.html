@@ -31,9 +31,7 @@
               </p>
             </div>
             <div class="col-2 text-right align-middle">
-              <form action="/articles/@{post.id}/delete" method="POST">
-                <button type="submit" class="btn btn-outline-danger">delete</button>
-              </form>
+                <button hx-post="/toggle-confirm/@{post.id}" hx-target="#confirm" hx-swap="outerHTML" class="btn btn-outline-danger">delete</button>
             </div>
           </div>
           <hr/>
@@ -55,3 +53,5 @@
         }
       });
       </script>
+
+<script src="/assets/js/htmx.min.js"></script>
