@@ -1,0 +1,17 @@
+<main class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="row justify-content-between align-items-center">
+        <p class="display-5">${ctx.selected_chapter.header}</p>
+      </div>
+      <p id="markedText">${ctx.selected_chapter.content}</p>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  const markText = document.getElementById("markedText").value
+  const htmlText = marked(markText)
+  document.getElementById("markedText").innerHTML = htmlText
+</script>

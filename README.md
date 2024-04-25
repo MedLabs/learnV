@@ -18,7 +18,7 @@ git clone https://github.com/medlabs/learnV.git
 // then enter the cloned folder
 cd learnV
 // start a vweb server
-vweb -d vweb_livereload watch run .
+v -d vweb_livereload watch run .
 // a vweb server should start at http://localhost:8081
 ```
 
@@ -31,6 +31,8 @@ You should keep two pages open, so you can get more informations about how V wor
 - https://modules.vlang.io
 - https://github.com/vlang/v/blob/master/doc/docs.md
 
+#### What's New ?
+I'm trying to generate automatically the Vlang docs into an organized docs page using `markdown` and `htmx`
 
 #### TODO
 - more components and pages will be added to learnV.

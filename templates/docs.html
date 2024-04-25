@@ -1,0 +1,34 @@
+@include 'partials/header.html'
+<main class="container">
+  <div class="card">
+    <div class=" card-body">
+      <h2 class="display-6 mb-4">V Documentation</h2>
+      @if ctx.chapters.len == 0
+      <div class="alert alert-warning">Chapters could not be loaded.</div>
+      @else
+      <div class="row align-items-left">
+        <div class="col-4 chapters">
+          @for chap in ctx.chapters
+          <p class="text-secondary"><a class="link-blue link-underline-opacity-0 text-capitalize"
+              hx-get="/chapter/@{chap.id}" hx-target="#content">@{chap.header}</a></p>
+          @endfor
+        </div>
+        <div id="content" hx-target="this" hx-swap="innerHTML" class="col-8">
+          <h5>@ctx.selected_chapter.header</h5>
+          <p>@ctx.selected_chapter.content</p>
+        </div>
+      </div>
+      @endif
+    </div>
+  </div>
+</main>
+
+<script src="/assets/js/htmx.min.js"></script>
+
+<style>
+  .chapters {
+    background: #eeeeee;
+    max-height: 80svh;
+    overflow-y: scroll;
+  }
+</style>

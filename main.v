@@ -16,6 +16,8 @@ pub mut:
   article models.Article
   articles []models.Article
   users []models.User
+  chapters []models.Chapter
+  selected_chapter models.Chapter
 }
 pub struct App {
   vweb.StaticHandler
@@ -59,7 +61,7 @@ fn main() {
     title: "VwebApp",
     counter: Counter{count: 2},
     age: 42,
-    name: "Lassaad"
+    name: ""
   }
 
   app.static_mime_types['.map'] = 'txt/plain'
@@ -79,11 +81,41 @@ pub fn (mut app App) index(mut ctx Context) vweb.Result {
   return $vweb.html()
 }
 
+// For the about page, I can remove the @['/about'] because the function name is "about"
 @['/about']
 pub fn (mut app App) about(mut ctx Context) vweb.Result {
   app.title = 'VwebApp - About'
   app.about_text = "This project is made using the V web framework Vweb\nCheck the source code and try to reproduce it from scratch, it\'s the best way to learn V"
   return $vweb.html()
+}
+
+// docs is a attempt to automatically generate the official docs of Vlang, since the devs are so busy with other projects !!!
+@['/docs'; get]
+pub fn (mut app App) docs(mut ctx Context) vweb.Result {
+  app.title = 'VwebApp - V Documentation'
+  ctx.chapters = handlers.get_docs()
+  return $vweb.html()
+}
+
+// this is the page where the content of the chapter will be displayed
+@['/chapter/:id'; get]
+pub fn (mut app App) chapter(mut ctx Context, id string) vweb.Result {
+  ctx.chapters = handlers.get_docs()
+  mut chapter := []models.Chapter{}
+  if id == "" {
+    chapter = ctx.chapters.filter(it.id == "1")
+  } else {
+    chapter = ctx.chapters.filter(it.id == id)
+  }
+  if chapter.len > 0 {
+    app.title = chapter[0].header
+    md_chapter_content := markdown.to_html(chapter[0].content)
+    html_chapter_content := vweb.RawHtml(md_chapter_content)
+    ctx.selected_chapter = models.Chapter{header: chapter[0].header, content: html_chapter_content}
+    return $vweb.html()
+  } else {
+    return ctx.json({"header": "404 not found", "content": ""})
+    }
 }
 
 @['/articles'; get]
